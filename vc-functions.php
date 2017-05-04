@@ -38,9 +38,6 @@ if ( !function_exists( 'oy_remove_vc_shortcodes' ) ) {
 			vc_remove_element( 'vc_pinterest' );
 			vc_remove_element( 'vc_toggle' );
 			vc_remove_element( 'vc_single_image' );
-			vc_remove_element( 'vc_gallery' );
-			vc_remove_element( 'vc_images_carousel' );
-			vc_remove_element( 'vc_tabs' );
 			vc_remove_element( 'vc_tour' );
 			vc_remove_element( 'vc_accordion' );
 			vc_remove_element( 'vc_posts_grid' );
