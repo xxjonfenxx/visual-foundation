@@ -9,6 +9,7 @@
 //   01. Set Custom Template Directory
 //   02. Remove Visual Composer Shortcodes
 //   03. Map New Visual Composer Shortcodes
+//	 04. Overwrite Row and Column Shortcodes
 // =============================================================================
 
 // =============================================================================
@@ -4003,6 +4004,428 @@ if ( !function_exists( 'oy_map_vc_shortcodes' ) ) {
   class WPBakeryShortCode_Tab extends WPBakeryShortCode { }
   class WPBakeryShortCode_Toc_Item extends WPBakeryShortCode { }
   class WPBakeryShortCode_Google_Map_marker extends WPBakeryShortCode { }
-	
-	
+}
+
+// =============================================================================
+// Overwrite Row and Column Shortcodes
+// =============================================================================
+
+if( !function_exists( 'oy_overwrite_row_columns' ) ) {
+	function oy_overwrite_row_columns() {
+		
+		//
+		// vc_row
+		//
+		
+		vc_map_update( 'vc_row', array(
+      'name'        => __( 'Row', 'your-theme' ),
+      'weight'      => 1000,
+      'class'       => 'oy-element-row',
+      'category'    => __( 'Structure', 'your-theme' ),
+      'description' => __( 'Place and structure your shortcodes inside of a row', 'your-theme' )
+    ) );
+		
+		vc_remove_param( 'vc_row', 'bg_color' );
+    vc_remove_param( 'vc_row', 'font_color' );
+    vc_remove_param( 'vc_row', 'padding' );
+    vc_remove_param( 'vc_row', 'margin_bottom' );
+    vc_remove_param( 'vc_row', 'bg_image' );
+    vc_remove_param( 'vc_row', 'bg_image_repeat' );
+    vc_remove_param( 'vc_row', 'el_class' );
+    vc_remove_param( 'vc_row', 'css' );
+    vc_remove_param( 'vc_row', 'full_width' );
+    vc_remove_param( 'vc_row', 'full_height' );
+    vc_remove_param( 'vc_row', 'content_placement' );
+    vc_remove_param( 'vc_row', 'video_bg' );
+    vc_remove_param( 'vc_row', 'video_bg_url' );
+    vc_remove_param( 'vc_row', 'video_bg_parallax' );
+    vc_remove_param( 'vc_row', 'parallax' );
+    vc_remove_param( 'vc_row', 'parallax_image' );
+    vc_remove_param( 'vc_row', 'gap' );
+    vc_remove_param( 'vc_row', 'equal_height' );
+    vc_remove_param( 'vc_row', 'columns_placement' );
+    vc_remove_param( 'vc_row', 'el_id' );
+		
+		vc_add_param( 'vc_row', array(
+      'param_name'  => 'inner_container',
+      'heading'     => __( 'Inner Container', 'your-theme' ),
+      'description' => __( 'Select to insert a container inside of the row. Useful for making the outer container full width but keeping the inner container in the grid.', 'your-theme' ),
+      'type'        => 'checkbox',
+      'holder'      => 'div',
+      'value'       => array(
+        '' => 'true'
+      )
+    ) );
+
+    vc_add_param( 'vc_row', array(
+      'param_name'  => 'no_margin',
+      'heading'     => __( 'Remove Margin', 'your-theme' ),
+      'description' => __( 'Select to remove the margin from the row and stack them on top of each other.', 'your-theme' ),
+      'type'        => 'checkbox',
+      'holder'      => 'div',
+      'value'       => array(
+        '' => 'true'
+      )
+    ) );
+
+    vc_add_param( 'vc_row', array(
+      'param_name'  => 'padding_top',
+      'heading'     => __( 'Padding Top', 'your-theme' ),
+      'description' => __( 'Set the top padding of the row (leave blank to keep default).', 'your-theme' ),
+      'save_always' => true,
+      'type'        => 'textfield',
+      'holder'      => 'div',
+      'value'       => '0px'
+    ) );
+
+    vc_add_param( 'vc_row', array(
+      'param_name'  => 'padding_bottom',
+      'heading'     => __( 'Padding Bottom', 'your-theme' ),
+      'description' => __( 'Set the bottom padding of the row (leave blank to keep default).', 'your-theme' ),
+      'save_always' => true,
+      'type'        => 'textfield',
+      'holder'      => 'div',
+      'value'       => '0px'
+    ) );
+
+    vc_add_param( 'vc_row', array(
+      'param_name'  => 'no_padding_sides',
+      'heading'     => __( 'Remove Side Padding', 'your-theme' ),
+      'description' => __( 'Remove padding on the side of the content inside of this container.', 'your-theme' ),
+      'save_always' => true,
+      'type'        => 'checkbox',
+      'holder'      => 'div',
+      'value'       => array(
+        '' => 'true'
+      )
+    ) );
+
+    vc_add_param( 'vc_row', array(
+      'param_name'  => 'border',
+      'heading'     => __( 'Border', 'your-theme' ),
+      'description' => __( 'Select whether or not to display a border on your row.', 'your-theme' ),
+      'type'        => 'dropdown',
+      'holder'      => 'div',
+      'value'       => array(
+        '- Select Option -' => '',
+        'None'              => 'none',
+        'Top'               => 'top',
+        'Left'              => 'left',
+        'Right'             => 'right',
+        'Bottom'            => 'bottom',
+        'Horizontal'        => 'horizontal',
+        'Vertical'          => 'vertical',
+        'All'               => 'all'
+      )
+    ) );
+
+    vc_add_param( 'vc_row', array(
+      'param_name'  => 'bg_color',
+      'heading'     => __( 'Background Color', 'your-theme' ),
+      'description' => __( 'Select the background color of your row (leave blank for "transparent").', 'your-theme' ),
+      'type'        => 'colorpicker',
+      'holder'      => 'div'
+    ) );
+
+    vc_add_param( 'vc_row', array(
+      'param_name'  => 'bg_pattern',
+      'heading'     => __( 'Background Pattern', 'your-theme' ),
+      'description' => __( 'Upload a background pattern to your row.', 'your-theme' ),
+      'type'        => 'attach_image',
+      'holder'      => 'div'
+    ) );
+
+    vc_add_param( 'vc_row', array(
+      'param_name'  => 'bg_image',
+      'heading'     => __( 'Background Image', 'your-theme' ),
+      'description' => __( 'Upload a background image to your row (this will overwrite your Background Pattern).', 'your-theme' ),
+      'type'        => 'attach_image',
+      'holder'      => 'div'
+    ) );
+
+    vc_add_param( 'vc_row', array(
+      'param_name'  => 'parallax',
+      'heading'     => __( 'Parallax', 'your-theme' ),
+      'description' => __( 'Select to activate the parallax effect with background patterns and images.', 'your-theme' ),
+      'type'        => 'checkbox',
+      'holder'      => 'div',
+      'value'       => array(
+        '' => 'true'
+      )
+    ) );
+
+    vc_add_param( 'vc_row', array(
+      'param_name'  => 'bg_video',
+      'heading'     => __( 'Background Video', 'your-theme' ),
+      'description' => __( 'Include the path to your background video (this will overwrite both your Background Pattern and Background Image).', 'your-theme' ),
+      'save_always' => true,
+      'type'        => 'textfield',
+      'holder'      => 'div'
+    ) );
+		
+		vc_add_param( 'vc_row_inner', array(
+      'param_name'  => 'id',
+      'heading'     => __( 'ID', 'your-theme' ),
+      'description' => __( '(Optional) Enter a unique element id.', 'your-theme' ),
+      'save_always' => true,
+      'type'        => 'textfield',
+      'holder'      => 'div'
+    ) );
+
+    vc_add_param( 'vc_row', array(
+      'param_name'  => 'class',
+      'heading'     => __( 'Class', 'your-theme' ),
+      'description' => __( '(Optional) Enter a unique class name.', 'your-theme' ),
+      'save_always' => true,
+      'type'        => 'textfield',
+      'holder'      => 'div'
+    ) );
+
+    vc_add_param( 'vc_row', array(
+      'param_name'  => 'style',
+      'heading'     => __( 'Style', 'your-theme' ),
+      'description' => __( '(Optional) Enter inline CSS.', 'your-theme' ),
+      'save_always' => true,
+      'type'        => 'textarea',
+      'holder'      => 'div'
+    ) );
+		
+		//
+    // vc_row_inner
+    //
+
+    vc_map_update( 'vc_row_inner', array(
+      'name'        => __( 'row', 'your-theme' ),
+      'weight'      => 1000,
+      'class'       => 'oy-element-row',
+      'category'    => __( 'Structure', 'your-theme' ),
+      'description' => __( 'Place and structure your shortcodes inside of a row', 'your-theme' )
+    ) );
+
+    vc_remove_param( 'vc_row_inner', 'font_color' );
+    vc_remove_param( 'vc_row_inner', 'el_class' );
+    vc_remove_param( 'vc_row_inner', 'css' );
+    vc_remove_param( 'vc_row_inner', 'gap' );
+    vc_remove_param( 'vc_row_inner', 'equal_height' );
+    vc_remove_param( 'vc_row_inner', 'content_placement' );
+    vc_remove_param( 'vc_row_inner', 'el_id' );
+
+    vc_add_param( 'vc_row_inner', array(
+      'param_name'  => 'inner_container',
+      'heading'     => __( 'Inner Container', 'your-theme' ),
+      'description' => __( 'Select to insert a container inside of the row. Useful for making the outer container full width but keeping the inner container in the grid.', 'your-theme' ),
+      'type'        => 'checkbox',
+      'holder'      => 'div',
+      'value'       => array(
+        '' => 'true'
+      )
+    ) );
+
+    vc_add_param( 'vc_row_inner', array(
+      'param_name'  => 'no_margin',
+      'heading'     => __( 'Remove Margin', 'your-theme' ),
+      'description' => __( 'Select to remove the margin from the row and stack them on top of each other.', 'your-theme' ),
+      'type'        => 'checkbox',
+      'holder'      => 'div',
+      'value'       => array(
+        '' => 'true'
+      )
+    ) );
+
+    vc_add_param( 'vc_row_inner', array(
+      'param_name'  => 'padding_top',
+      'heading'     => __( 'Padding Top', 'your-theme' ),
+      'description' => __( 'Set the top padding of the row (leave blank to keep default).', 'your-theme' ),
+      'save_always' => true,
+      'type'        => 'textfield',
+      'holder'      => 'div',
+      'value'       => '0px'
+    ) );
+
+    vc_add_param( 'vc_row_inner', array(
+      'param_name'  => 'padding_bottom',
+      'heading'     => __( 'Padding Bottom', 'your-theme' ),
+      'description' => __( 'Set the bottom padding of the row (leave blank to keep default).', 'your-theme' ),
+      'save_always' => true,
+      'type'        => 'textfield',
+      'holder'      => 'div',
+      'value'       => '0px'
+    ) );
+
+    vc_add_param( 'vc_row_inner', array(
+      'param_name'  => 'no_padding_sides',
+      'heading'     => __( 'Remove Side Padding', 'your-theme' ),
+      'description' => __( 'Remove padding on the side of the content inside of this container.', 'your-theme' ),
+      'save_always' => true,
+      'type'        => 'checkbox',
+      'holder'      => 'div',
+      'value'       => array(
+        '' => 'true'
+      )
+    ) );
+
+    vc_add_param( 'vc_row_inner', array(
+      'param_name'  => 'border',
+      'heading'     => __( 'Border', 'your-theme' ),
+      'description' => __( 'Select whether or not to display a border on your row.', 'your-theme' ),
+      'type'        => 'dropdown',
+      'holder'      => 'div',
+      'value'       => array(
+        '- Select Option -' => '',
+        'None'              => 'none',
+        'Top'               => 'top',
+        'Left'              => 'left',
+        'Right'             => 'right',
+        'Bottom'            => 'bottom',
+        'Horizontal'        => 'horizontal',
+        'Vertical'          => 'vertical',
+        'All'               => 'all'
+      )
+    ) );
+
+    vc_add_param( 'vc_row_inner', array(
+      'param_name'  => 'bg_color',
+      'heading'     => __( 'Background Color', 'your-theme' ),
+      'description' => __( 'Select the background color of your row (leave blank for "transparent").', 'your-theme' ),
+      'type'        => 'colorpicker',
+      'holder'      => 'div'
+    ) );
+
+    vc_add_param( 'vc_row_inner', array(
+      'param_name'  => 'bg_pattern',
+      'heading'     => __( 'Background Pattern', 'your-theme' ),
+      'description' => __( 'Upload a background pattern to your row.', 'your-theme' ),
+      'type'        => 'attach_image',
+      'holder'      => 'div'
+    ) );
+
+    vc_add_param( 'vc_row_inner', array(
+      'param_name'  => 'bg_image',
+      'heading'     => __( 'Background Image', 'your-theme' ),
+      'description' => __( 'Upload a background image to your row (this will overwrite your Background Pattern).', 'your-theme' ),
+      'type'        => 'attach_image',
+      'holder'      => 'div'
+    ) );
+
+    vc_add_param( 'vc_row_inner', array(
+      'param_name'  => 'parallax',
+      'heading'     => __( 'Parallax', 'your-theme' ),
+      'description' => __( 'Select to activate the parallax effect with background patterns and images.', 'your-theme' ),
+      'type'        => 'checkbox',
+      'holder'      => 'div',
+      'value'       => array(
+        '' => 'true'
+      )
+    ) );
+
+    vc_add_param( 'vc_row_inner', array(
+      'param_name'  => 'bg_video',
+      'heading'     => __( 'Background Video', 'your-theme' ),
+      'description' => __( 'Include the path to your background video (this will overwrite both your Background Pattern and Background Image).', 'your-theme' ),
+      'save_always' => true,
+      'type'        => 'textfield',
+      'holder'      => 'div'
+    ) );
+
+    vc_add_param( 'vc_row_inner', array(
+      'param_name'  => 'id',
+      'heading'     => __( 'ID', 'your-theme' ),
+      'description' => __( '(Optional) Enter a unique element id.', 'your-theme' ),
+      'save_always' => true,
+      'type'        => 'textfield',
+      'holder'      => 'div'
+    ) );
+
+    vc_add_param( 'vc_row_inner', array(
+      'param_name'  => 'class',
+      'heading'     => __( 'Class', 'your-theme' ),
+      'description' => __( '(Optional) Enter a unique class name.', 'your-theme' ),
+      'save_always' => true,
+      'type'        => 'textfield',
+      'holder'      => 'div'
+    ) );
+
+    vc_add_param( 'vc_row_inner', array(
+      'param_name'  => 'style',
+      'heading'     => __( 'Style', 'your-theme' ),
+      'description' => __( '(Optional) Enter inline CSS.', 'your-theme' ),
+      'save_always' => true,
+      'type'        => 'textarea',
+      'holder'      => 'div'
+    ) );
+		
+		//
+    // vc_column
+    //
+
+    vc_remove_param( 'vc_column', 'width' );
+    vc_remove_param( 'vc_column', 'offset' );
+    vc_remove_param( 'vc_column', 'font_color' );
+    vc_remove_param( 'vc_column', 'el_class' );
+    vc_remove_param( 'vc_column', 'css' );
+
+    vc_add_param( 'vc_column', array(
+      'param_name'  => 'id',
+      'heading'     => __( 'ID', 'your-theme' ),
+      'description' => __( '(Optional) Enter a unique ID.', 'your-theme' ),
+      'save_always' => true,
+      'type'        => 'textfield',
+      'holder'      => 'div'
+    ) );
+
+    vc_add_param( 'vc_column', array(
+      'param_name'  => 'class',
+      'heading'     => __( 'Class', 'your-theme' ),
+      'description' => __( '(Optional) Enter a unique class name.', 'your-theme' ),
+      'save_always' => true,
+      'type'        => 'textfield',
+      'holder'      => 'div'
+    ) );
+
+    vc_add_param( 'vc_column', array(
+      'param_name'  => 'style',
+      'heading'     => __( 'Style', 'your-theme' ),
+      'description' => __( '(Optional) Enter inline CSS.', 'your-theme' ),
+      'save_always' => true,
+      'type'        => 'textarea',
+      'holder'      => 'div'
+    ) );
+		
+		//
+    // vc_column_inner
+    //
+
+    vc_remove_param( 'vc_column_inner', 'width' );
+    vc_remove_param( 'vc_column_inner', 'offset' );
+    vc_remove_param( 'vc_column_inner', 'font_color' );
+    vc_remove_param( 'vc_column_inner', 'el_class' );
+    vc_remove_param( 'vc_column_inner', 'css' );
+
+    vc_add_param( 'vc_column_inner', array(
+      'param_name'  => 'id',
+      'heading'     => __( 'ID', 'your-theme' ),
+      'description' => __( '(Optional) Enter a unique ID.', 'your-theme' ),
+      'save_always' => true,
+      'type'        => 'textfield',
+      'holder'      => 'div'
+    ) );
+
+    vc_add_param( 'vc_column_inner', array(
+      'param_name'  => 'class',
+      'heading'     => __( 'Class', 'your-theme' ),
+      'description' => __( '(Optional) Enter a unique class name.', 'your-theme' ),
+      'save_always' => true,
+      'type'        => 'textfield',
+      'holder'      => 'div'
+    ) );
+
+    vc_add_param( 'vc_column_inner', array(
+      'param_name'  => 'style',
+      'heading'     => __( 'Style', 'your-theme' ),
+      'description' => __( '(Optional) Enter inline CSS.', 'your-theme' ),
+      'save_always' => true,
+      'type'        => 'textarea',
+      'holder'      => 'div'
+    ) );
+	}
 }
